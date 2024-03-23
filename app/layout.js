@@ -1,10 +1,12 @@
-import { Jost } from "next/font/google";
-import "./globals.css";
+import { Roboto } from "next/font/google";
 
-const inter = Jost({ subsets: ["latin"] });
+const inter = Roboto({
+  subsets: ["latin"],
+  weight: ["100", "300", "900"],
+});
 
 export const metadata = {
-  title: "Institute of Galactic War For Super Earth",
+  title: "Super Earth Ministry of Truth",
   description: "Unofficial Helldivers 2 Galactic War status page",
 };
 

@@ -3,6 +3,9 @@
 import styled from "styled-components";
 import Center from "./Center";
 import Link from "next/link";
+import { IconContext } from "react-icons";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { useState } from "react";
 
 const StyledHeader = styled.header`
   background-color: #01212f;
@@ -17,6 +20,7 @@ const Logo = styled(Link)`
   text-decoration: none;
   position: relative;
   z-index: 3;
+  font-weight: 900;
 `;
 
 const Wrapper = styled.div`
@@ -26,12 +30,15 @@ const Wrapper = styled.div`
 `;
 
 const StyledNav = styled.nav`
+  ${(props) =>
+    props.navactive === "true" ? `display: block;` : `display: none;`}
   gap: 15px;
   position: fixed;
   top: 0px;
   bottom: 0;
   left: 0;
   right: 0;
+  background-color: #01212f;
   padding: 70px 20px 20px;
   @media screen and (min-width: 768px) {
     display: flex;
@@ -45,22 +52,46 @@ const Navlink = styled(Link)`
   color: #f1f5f9;
   text-decoration: none;
   padding: 10px 0;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: #fbcf1e;
+  }
+
   @media screen and (min-width: 768px) {
     padding: 0;
   }
 `;
 
+const NavButton = styled.button`
+  background-color: transparent;
+  border: none;
+  color: #f1f5f9;
+  position: relative;
+  z-index: 3;
+  cursor: pointer;
+  @media screen and (min-width: 768px) {
+    display: none;
+  }
+`;
+
 export default function Header() {
+  const [navActive, setActive] = useState(false);
+
   return (
     <StyledHeader>
       <Center>
         <Wrapper>
-          <Logo href={"/"}>GW</Logo>
-          <StyledNav>
-            <Navlink href={"/"}>Home</Navlink>
-            <Navlink href={"/"}>Galactic War</Navlink>
-            <Navlink href={"/"}>Helldiver</Navlink>
+          <Logo href={"/"}>Super Earth Ministry of Truth</Logo>
+          <StyledNav navactive={navActive.toString()}>
+            <Navlink href={"/"}>Helldivers</Navlink>
+            <Navlink href={"/"}>Helldivers II</Navlink>
           </StyledNav>
+          <IconContext.Provider value={{ size: "1rem" }}>
+            <NavButton onClick={() => setActive((prev) => !prev)}>
+              <GiHamburgerMenu />
+            </NavButton>
+          </IconContext.Provider>
         </Wrapper>
       </Center>
     </StyledHeader>
