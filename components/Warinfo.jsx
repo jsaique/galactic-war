@@ -5,8 +5,29 @@ import SubTitle from "./SubTitle";
 import ProgressBar from "./ProgressBar";
 import WarStats from "./WarStats";
 import Count from "./Count";
+import React, { useState, useEffect } from "react";
 
 export default function WarinfoPage() {
+  const [warNews, setWarNews] = useState(null);
+
+  useEffect(() => {
+    const fetchWarNews = async () => {
+      try {
+        const response = await fetch(
+          "https://helldiverstrainingmanual.com/api/v1/war/news"
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch war status");
+        }
+        const data = await response.json();
+        setWarNews(data);
+      } catch (error) {
+        console.error("Error fetching war status:", error);
+      }
+    };
+    fetchWarNews();
+  }, []); // Empty dependency array ensures this effect runs only once
+
   const Background = styled.div`
     background-color: #01212f;
     padding: 50px 0;
@@ -38,10 +59,18 @@ export default function WarinfoPage() {
         <ColumnWrapper>
           <Box>
             <Center>
-              <Title>ERATA PRIME</Title>
-              <SubTitle>TERMINID CONTROL</SubTitle>
-              <Count>5.12970% LIBERATED</Count>
-              <ProgressBar progress={"5.12970"} />
+              {/* {warNews?.map((n) => (
+                <SubTitle key={n.id}>
+                  @{n.message}
+                  <br /> <hr />
+                </SubTitle>
+              ))} */}
+              {warNews && warNews.length > 0 && (
+                <SubTitle key={warNews[0].id}>
+                  @{warNews[0].message}
+                  <br /> <hr />
+                </SubTitle>
+              )}
             </Center>
           </Box>
           <Box>
